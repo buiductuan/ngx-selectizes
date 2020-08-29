@@ -14,10 +14,16 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-selectize": [
+        "dist/ng-selectize/ng-selectize",
+        "dist/ng-selectize"
+      ]
+    }
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
+    "fullTemplateTypeCheck": false,
     "strictInjectionParameters": true
   }
 }
