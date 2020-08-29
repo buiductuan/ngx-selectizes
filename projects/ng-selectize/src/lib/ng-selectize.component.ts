@@ -6,14 +6,22 @@ import {
   DoCheck,
   forwardRef,
   Component,
-  ViewChild,
   Output,
   Renderer2,
-  EventEmitter, IterableDiffers, IterableDiffer, IterableChangeRecord, IterableChanges, OnDestroy
+  EventEmitter,
+  IterableDiffers,
+  IterableDiffer,
+  IterableChangeRecord,
+  IterableChanges,
+  OnDestroy,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 
 import {
-  NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  FormControl
 } from '@angular/forms';
 
 declare const $: any;
@@ -36,8 +44,11 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
   @Input() config: any;
   // tslint:disable-next-line:variable-name
   private _options: any[];
+  // tslint:disable-next-line:variable-name
   private _options_differ: IterableDiffer<any>;
+  // tslint:disable-next-line:variable-name
   private _optgroups: any[];
+  // tslint:disable-next-line:variable-name
   private _optgroups_differ: IterableDiffer<any>;
 
   @Input() id: string;
@@ -52,9 +63,33 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onBlur: EventEmitter<void> = new EventEmitter<void>(false);
 
-  @ViewChild('selectizeInput') selectizeInput: any;
+  @ViewChild('selectizeInput', { static: true }) selectizeInput: ElementRef;
 
   private selectize: any;
+
+  @Input()
+  set options(value: any[]) {
+    this._options = value;
+    if (!this._options_differ && value) {
+      this._options_differ = this._differs.find(value).create();
+    }
+  }
+
+  get options(): any[] {
+    return this._options;
+  }
+
+  @Input()
+  set optgroups(value: any[]) {
+    this._optgroups = value;
+    if (!this._optgroups_differ && value) {
+      this._optgroups_differ = this._differs.find(value).create();
+    }
+  }
+
+  get optgroups(): any[] {
+    return this._optgroups;
+  }
 
   // Control value accessors.
   private onTouchedCallback: () => {};
@@ -80,9 +115,7 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     this.onEnabledStatusChange();
   }
 
-	/**
-	 * Change detection for primitive types.
-	 */
+  // Change detection for primitive types.
   ngOnChanges(changes: SimpleChanges) {
     if (this.selectize) {
       if (changes.hasOwnProperty('placeholder') || changes.hasOwnProperty('hasOptionsPlaceholder')
@@ -95,11 +128,8 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-  /**
-	 * Implementing deep check for option comparison
-	 *
-	 * FIXME -> Implement deep check to only compare against label and value fields.
-	 */
+  // Implementing deep check for option comparison
+  // FIXME -> Implement deep check to only compare against label and value fields.
   ngDoCheck() {
     if (this._options_differ) {
       const changes = this._options_differ.diff(this._options);
@@ -153,9 +183,7 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     this.selectize.removeOptionGroup(optgroup[this.getOptgroupField()]);
   }
 
-	/**
-	 * Refresh selected values when options change.
-	 */
+  // Refresh selected values when options change.
   onSelectizeOptionAdd(option: any): void {
     this.selectize.addOption($.extend({}, true, option));
     const valueField = this.getValueField();
@@ -182,9 +210,7 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-  /**
-	 * Update the current placeholder based on the given input parameter.
-	 */
+  // Update the current placeholder based on the given input parameter.
   updatePlaceholder(): void {
     if (this.selectize.items.length === 0 && this.selectize.settings.placeholder !== this.getPlaceholder()) {
       this.selectize.settings.placeholder = this.getPlaceholder();
@@ -193,18 +219,13 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-	/**
-	 * Called when a change is detected in the 'enabled' input field.
-	 * Sets the selectize state based on the new value.
-	 */
+  // Called when a change is detected in the 'enabled' input field.
+  // Sets the selectize state based on the new value.
   onEnabledStatusChange(): void {
     this.enabled ? this.selectize.enable() : this.selectize.disable();
   }
 
-	/**
-	 * Dispatches change event when a value change is detected.
-	 * @param $event
-	 */
+  // Dispatches change event when a value change is detected.
   onSelectizeValueChange(): void {
     // In some cases this gets called before registerOnChange.
     if (this.onChangeCallback) {
@@ -212,9 +233,7 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-	/**
-	 * Returns the applicable placeholder.
-	 */
+  // Returns the applicable placeholder.
   getPlaceholder(): string {
     if (this.hasOptionsPlaceholder) {
       if (this.options && this.options.length > 0) {
@@ -229,16 +248,6 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     return this.placeholder;
   }
 
-	/**
-	 * Implementation from ControlValueAccessor
-	 *
-	 * Empty check on 'obj' removed due to restriction on resetting the field.
-	 * From testing, async should still function appropriately.
-	 *
-	 * FIXME This might not be necessary anymore..
-	 *
-	 * @param obj
-	 */
   writeValue(obj: any): void {
     if (obj !== this.value) {
       this.value = obj;
@@ -248,18 +257,10 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-	/**
-	 * Implementation from ControlValueAccessor, callback for (ngModelChange)
-	 * @param fn
-	 */
   registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-	/**
-	 * Implementation from ControlValueAccessor
-	 * @param fn
-	 */
   registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
@@ -283,7 +284,6 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
       delete this.selectize;
     }
     if (this.selectizeInput) {
-      $(this.selectizeInput.nativeElement).selectize({});
       delete this.selectizeInput;
     }
     if (this._differs) {
@@ -300,38 +300,11 @@ export class NgSelectizeComponent implements OnInit, OnChanges, DoCheck, Control
     }
   }
 
-	/**
-	 * onDestroy memory component
-	 */
+  // onDestroy memory component
   ngOnDestroy() {
     if (this.selectize) {
       this.selectize.destroy();
       this.destroyMemory();
     }
   }
-
-  @Input()
-  set options(value: any[]) {
-    this._options = value;
-    if (!this._options_differ && value) {
-      this._options_differ = this._differs.find(value).create();
-    }
-  }
-
-  get options(): any[] {
-    return this._options;
-  }
-
-  @Input()
-  set optgroups(value: any[]) {
-    this._optgroups = value;
-    if (!this._optgroups_differ && value) {
-      this._optgroups_differ = this._differs.find(value).create();
-    }
-  }
-
-  get optgroups(): any[] {
-    return this._optgroups;
-  }
-
 }

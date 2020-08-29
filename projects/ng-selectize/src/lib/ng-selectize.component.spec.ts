@@ -8,9 +8,9 @@ describe('NgSelectizeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgSelectizeComponent ]
+      declarations: [NgSelectizeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +21,9 @@ describe('NgSelectizeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('init viewchild here', () => {
+    expect(component.selectizeInput).toBeTruthy();
   });
 });
