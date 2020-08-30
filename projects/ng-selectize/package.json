@@ -1,10 +1,26 @@
 {
   "name": "ngx-selectizes",
-  "version": "0.0.5",
+  "version": "0.0.6",
+  "license": "MIT",
+  "keywords": [
+    "selectize",
+    "angular",
+    "directive",
+    "component",
+    "select",
+    "angular 10"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buiductuan/ngx-selectizes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/buiductuan/ngx-selectizes/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^9.1.12",
     "@angular/core": "^9.1.12",
-    "@angular/forms":"^9.1.12"
+    "@angular/forms": "^9.1.12"
   },
   "dependencies": {
     "tslib": "^1.10.0"
