@@ -1,6 +1,6 @@
 # ngx-selectizes
 
-[![npm version](https://badge.fury.io/js/ng-selectize.svg)](https://badge.fury.io/js/ng-selectize)
+[![npm version](https://badge.fury.io/js/ngx-selectizes.svg)](https://badge.fury.io/js/ngx-selectizes)
 
 Angular 10 is available component for [selectize.js]
 
