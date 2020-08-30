@@ -1,27 +1,45 @@
-# NgxSelectizes
+# ngx-selectizes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+[![npm version](https://badge.fury.io/js/ng-selectize.svg)](https://badge.fury.io/js/ng-selectize)
 
-## Development server
+Angular 10 is available component for [selectize.js]
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Including within existing angular-cli project
+1. `npm i --save ngx-selectizes jquery selectize`
+2. Add the following to the styles array within `.angular.json`:
+	```javascript
+    "../node_modules/selectize/dist/css/selectize.css",
+    "../node_modules/selectize/dist/css/selectize.{your chosen theme}.css"
+    ```
+3. Add the following to the scripts array within `.angular.json`
+	```javascript
+	"../node_modules/jquery/dist/jquery.min.js",
+	"../node_modules/ngx-selectizes/selectize/selectize.standalone.js" (or take from /node_modules/selectize/...)
+	```
+3. Import module within applicable `@NgModule`:
+	```javascript
+	import {NgSelectizeModule} from 'ngx-selectizes';
+	imports: [..., NgSelectizeModule, ...],
+	```
+4. Use within template: `<ng-selectize [config]="..." [options] = "..." {other-attributes}></ng-selectize>`
 
-## Code scaffolding
+## Docs
+The docs directory within this repo is the result of `ng build --prod` from the [ng-selectize-demo](https://github.com/buiductuan/ngx-selectizes.git) repository. It can be accessed from the hosted example site above.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Attributes
+| Attribute | Type | Default | Description | Implemented |
+| --- | --- | --- | --- | --- |
+| config | Object | null | Selectize config | Yes |
+| options | Array | null | Available options to select from | Yes |
+| placeholder | String | '' | Placeholder text to be displayed. Is overridden if hasOptionsPlaceholder/noOptionsPlaceholder are non-null | Yes |
+| noOptionsPlaceholder | String | '' | Placeholder text to be displayed when no options are available | Yes |
+| hasOptionsPlaceholder | String | '' | Placeholder text to be displayed when options are available | Yes |
+| enabled | Boolean | true | Enables the input field when true, disabled otherwise | Yes |
+| formControl | FormControl | null | Form control field to be used to set value and/or validation. | Yes |
+| errorClass | String | 'has-error' | CSS Class to be added to the field when  | Yes |
+| optionGroups | Object | null | Organize options within groups | Yes |
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Included Selectize Plugins
+| Name | Options | Description |
+| --- | --- | --- |
+| dropdown_direction | {'auto', 'up', 'down'} | Control the direction in which the dropdown opens. |
