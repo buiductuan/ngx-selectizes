@@ -1,6 +1,6 @@
 {
   "name": "ngx-selectizes",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "MIT",
   "keywords": [
     "selectize",
@@ -23,6 +23,6 @@
     "@angular/forms": "^9.1.12"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   }
 }
